@@ -1,0 +1,34 @@
+import sys
+
+def floyd(c, dist):
+    for k in range(1, c + 1):
+        for i in range(1, c + 1):
+            for j in range(1, c + 1):
+                dist[i][j] = min(dist[i][j], dist[i][k] + dist[k][j])
+    return dist
+
+def main():
+    INF = float('inf')
+    maps = int(input(""))
+    
+    for _ in range(maps):
+        # Read the number of maps and map details
+        C, S, M = map(int, input().split())
+        
+        # Initialize the dist matrix for this map
+        dist = [[INF] * (C + 1) for _ in range(C + 1)]
+        for _ in range(S):
+            v1, v2, distance = map(int, input().split())
+            dist[v1][v2] = dist[v2][v1] = distance
+        dist = floyd(C, dist)
+
+        for _ in range(M):
+            # Answer M questions
+            c1, c2 = map(int, input().split())
+            if dist[c1][c2] == INF:
+                print("no path")
+            else:
+                print(dist[c1][c2])
+
+if __name__ == "__main__":
+    main()
